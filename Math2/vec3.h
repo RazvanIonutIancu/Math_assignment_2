@@ -36,6 +36,10 @@ public:
 
 	vec3& operator=(const vec3& rhs)
 	{
+		this->x = rhs.x;
+		this->y = rhs.y;
+		this->z = rhs.z;
+
 		return *this;
 	}
 
@@ -120,7 +124,12 @@ public:
 
 
 
-};
+}; // Class end
+
+
+
+
+
 
 
 

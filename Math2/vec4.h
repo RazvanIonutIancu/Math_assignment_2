@@ -45,6 +45,11 @@ public:
 
 	vec4& operator=(const vec4& rhs)
 	{
+		this->x = rhs.x;
+		this->y = rhs.y;
+		this->z = rhs.z;
+		this->w = rhs.w;
+
 		return *this;
 	}
 
@@ -129,7 +134,12 @@ public:
 		if (i == 2) return this->z;
 		if (i == 3) return this->w;
 	}
-};
+}; // Class end
+
+
+
+
+
 
 
 float dot(const vec4& a, const vec4& b)

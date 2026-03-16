@@ -1,4 +1,5 @@
 #pragma once
+#include "vec3.h"
 #include "vec4.h"
 
 
@@ -129,4 +130,68 @@ public:
 		if (i == 3) return this->m[3];
 	}
 
-};
+}; // Class end
+
+
+
+
+
+
+float determinant(const mat4& m)
+{
+	vec3 a{ m[0][1], m[0][2], m[0][3] };
+	vec3 b{ m[1][1], m[1][2], m[1][3] };
+	vec3 c{ m[2][1], m[2][2], m[2][3] };
+	vec3 d{ m[3][1], m[3][2], m[3][3] };
+
+	return m[0][0] * dot(b, cross(c, d))
+		 - m[1][0] * dot(a, cross(c, d))
+		 + m[2][0] * dot(a, cross(b, d))
+		 - m[3][0] * dot(a, cross(b, c));
+}
+
+
+
+
+mat4 inverse(const mat4& m)
+{
+	float theDeterminant = determinant(m);
+	if (theDeterminant == 0.0f)
+	{
+		return mat4{};
+	}
+
+	mat4 theInverse;
+
+	theInverse[0][0] =  dot(vec3{ m[1][1], m[1][2], m[1][3] }, cross(vec3{ m[2][1], m[2][2], m[2][3] }, vec3{ m[3][1], m[3][2], m[3][3] }));
+	theInverse[0][1] = -dot(vec3{ m[0][1], m[0][2], m[0][3] }, cross(vec3{ m[2][1], m[2][2], m[2][3] }, vec3{ m[3][1], m[3][2], m[3][3] }));
+	theInverse[0][2] =  dot(vec3{ m[0][1], m[0][2], m[0][3] }, cross(vec3{ m[1][1], m[1][2], m[1][3] }, vec3{ m[3][1], m[3][2], m[3][3] }));
+	theInverse[0][3] = -dot(vec3{ m[0][1], m[0][2], m[0][3] }, cross(vec3{ m[1][1], m[1][2], m[1][3] }, vec3{ m[2][1], m[2][2], m[2][3] }));
+	
+	theInverse[1][0] = -dot(vec3{ m[1][0], m[1][2], m[1][3] }, cross(vec3{ m[2][0], m[2][2], m[2][3] }, vec3{ m[3][0], m[3][2], m[3][3] }));
+	theInverse[1][1] =  dot(vec3{ m[0][0], m[0][2], m[0][3] }, cross(vec3{ m[2][0], m[2][2], m[2][3] }, vec3{ m[3][0], m[3][2], m[3][3] }));
+	theInverse[1][2] = -dot(vec3{ m[0][0], m[0][2], m[0][3] }, cross(vec3{ m[1][0], m[1][2], m[1][3] }, vec3{ m[3][0], m[3][2], m[3][3] }));
+	theInverse[1][3] =  dot(vec3{ m[0][0], m[0][2], m[0][3] }, cross(vec3{ m[1][0], m[1][2], m[1][3] }, vec3{ m[2][0], m[2][2], m[2][3] }));
+	
+	theInverse[2][0] =  dot(vec3{ m[1][0], m[1][1], m[1][3] }, cross(vec3{ m[2][0], m[2][1], m[2][3] }, vec3{ m[3][0], m[3][1], m[3][3] }));
+	theInverse[2][1] = -dot(vec3{ m[0][0], m[0][1], m[0][3] }, cross(vec3{ m[2][0], m[2][1], m[2][3] }, vec3{ m[3][0], m[3][1], m[3][3] }));
+	theInverse[2][2] =  dot(vec3{ m[0][0], m[0][1], m[0][3] }, cross(vec3{ m[1][0], m[1][1], m[1][3] }, vec3{ m[3][0], m[3][1], m[3][3] }));
+	theInverse[2][3] = -dot(vec3{ m[0][0], m[0][1], m[0][3] }, cross(vec3{ m[1][0], m[1][1], m[1][3] }, vec3{ m[2][0], m[2][1], m[2][3] }));
+	
+	theInverse[3][0] = -dot(vec3{ m[1][0], m[1][1], m[1][2] }, cross(vec3{ m[2][0], m[2][1], m[2][2] }, vec3{ m[3][0], m[3][1], m[3][2] }));
+	theInverse[3][1] =  dot(vec3{ m[0][0], m[0][1], m[0][2] }, cross(vec3{ m[2][0], m[2][1], m[2][2] }, vec3{ m[3][0], m[3][1], m[3][2] }));
+	theInverse[3][2] = -dot(vec3{ m[0][0], m[0][1], m[0][2] }, cross(vec3{ m[1][0], m[1][1], m[1][2] }, vec3{ m[3][0], m[3][1], m[3][2] }));
+	theInverse[3][3] =  dot(vec3{ m[0][0], m[0][1], m[0][2] }, cross(vec3{ m[1][0], m[1][1], m[1][2] }, vec3{ m[2][0], m[2][1], m[2][2] }));
+
+
+
+
+	float reciprocal = 1.0f / theDeterminant;
+	for (int i = 0; i < 4; i++)
+		for (int j = 0; j < 4; j++)
+			theInverse[i][j] *= reciprocal;
+
+	return theInverse;
+}
+
+
