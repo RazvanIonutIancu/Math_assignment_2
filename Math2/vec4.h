@@ -114,7 +114,7 @@ public:
 
 
 
-	const float operator[](const int i)
+	float& operator[](const int i)
 	{
 		if (i == 0) return this->x;
 		if (i == 1) return this->y;
