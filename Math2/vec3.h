@@ -34,47 +34,70 @@ public:
 	}
 
 
-	vec3 operator=(vec3 const& rhs)
+	vec3& operator=(const vec3& rhs)
 	{
 		return *this;
 	}
 
-	vec3 operator-()
+	vec3 operator-() const
 	{
 		return vec3({ this->x * (-1), this->y * (-1), this->z * (-1)});
 	}
 
 
 
-	vec3 operator+(vec3 const& rhs)
+	vec3 operator+(const vec3& rhs) const
 	{
 		return vec3({ this->x + rhs.x , this->y + rhs.y , this->z + rhs.z });
 	}
 
-	vec3 operator +=(vec3 const& rhs)
+	vec3& operator +=(const vec3& rhs)
 	{
-		return vec3({ this->x += rhs.x , this->y += rhs.y , this->z += rhs.z });
+		this->x += rhs.x;
+		this->y += rhs.y;
+		this->z += rhs.z;
+
+		return *this;
 	}
 
 
 
-	vec3 operator-(vec3 const& rhs)
+	vec3 operator-(const vec3& rhs) const
 	{
 		return vec3({ this->x - rhs.x , this->y - rhs.y , this->z - rhs.z });
 	}
 
-	vec3 operator -=(vec3 const& rhs)
+	vec3& operator -=(const vec3& rhs)
 	{
-		return vec3({ this->x -= rhs.x , this->y -= rhs.y , this->z -= rhs.z });
+		this->x -= rhs.x;
+		this->y -= rhs.y;
+		this->z -= rhs.z;
+		
+		return *this;
 	}
 
 
 
-	bool operator==(vec3 const& rhs)
+	vec3& operator*=(const float scalar)
+	{
+		this->x *= scalar;
+		this->y *= scalar;
+		this->z *= scalar;
+		return *this;
+	}
+
+	vec3 operator*(const float scalar) const
+	{
+		return vec3{ this->x * scalar, this->y * scalar, this->z * scalar };
+	}
+
+
+
+	bool operator==(const vec3& rhs) const
 	{
 		return (this->x == rhs.x && this->y == rhs.y && this->z == rhs.z);
 	}
-	bool operator!=(vec3 const& rhs)
+	bool operator!=(const vec3& rhs) const
 	{
 		return !(this->x == rhs.x && this->y == rhs.y && this->z == rhs.z);
 	}
@@ -88,7 +111,7 @@ public:
 		if (i == 2) return this->z;
 	}
 
-	const float const& operator[](const int i) const
+	const float& operator[](const int i) const
 	{
 		if (i == 0) return this->x;
 		if (i == 1) return this->y;
