@@ -195,3 +195,79 @@ mat4 inverse(const mat4& m)
 }
 
 
+mat4 transpose(const mat4& m)
+{
+
+	mat4 newM;
+
+	for (int i = 0; i < 4; i++)
+	{
+		for (int j = 0; j < 4; j++)
+		{
+			newM[i][j] = m[j][i];
+		}
+	}
+
+	return newM;
+}
+
+
+
+
+mat4 rotationx(const float rad)
+{
+	float sine = sin(rad);
+	float cosine = cos(rad);
+
+	return mat4{ vec4{1, 0, 0, 0},
+				 vec4{0, cosine, -sine, 0},
+				 vec4{0, sine, cosine, 0},
+				 vec4{0, 0, 0, 1} };
+}
+
+mat4 rotationy(const float rad)
+{
+	float sine = sin(rad);
+	float cosine = cos(rad);
+
+	return mat4{ vec4{cosine, 0, sine, 0},
+				 vec4{0, 1, 0, 0},
+				 vec4{-sine, 0, cosine, 0},
+				 vec4{0, 0, 0, 1} };
+}
+
+mat4 rotationz(const float rad)
+{
+	float sine = sin(rad);
+	float cosine = cos(rad);
+
+	return mat4{ vec4{cosine, -sine, 0, 0},
+				 vec4{sine, cosine, 0, 0},
+				 vec4{0, 0, 1, 0},
+				 vec4{0, 0, 0, 1} };
+}
+
+
+
+mat4 rotationaxis(const vec3& v, const float rad)
+{
+	float sine = sin(rad);
+	float cosine = cos(rad);
+	float oneMinusC = 1.0f - cos(rad);
+
+	vec3 newAxis = normalize(v);
+	float x = newAxis.x;
+	float y = newAxis.y;
+	float z = newAxis.z;
+
+	// Rodriguez formula
+	return mat4{ vec4{ cosine + oneMinusC * x * x, oneMinusC * x * y - sine * z, oneMinusC * x * z + sine * y, 0},
+				 vec4{ oneMinusC * x * y + sine * z, cosine + oneMinusC * y * y, oneMinusC * y * z - sine * x, 0},
+				 vec4{ oneMinusC * x * z - sine * y, oneMinusC * y * z + sine * x, cosine + oneMinusC * z * z, 0},
+				 vec4{0, 0, 0, 1}
+	};
+
+
+
+
+}
